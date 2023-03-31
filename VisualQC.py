@@ -87,6 +87,10 @@ def esegui():
         print("MAX Value = " + str(v2.get()))
         print("Spike Value = " + str(v1Spike.get()))
         
+        val1=0
+        val2=0
+        val3=0
+        
         if tmpMyCol==tmpMyColQC:
             print("Warning: column to check and QC's column can't be the same")
             messagebox.showwarning("showwarning", "Warning: column to check and QC's column can't be the same")
@@ -96,14 +100,75 @@ def esegui():
         if tmpMyColQC==-1:
             #print("Warning: QC column is not defined")
             messagebox.showwarning("showwarning", "Warning: QC column is not defined")
-        if v1.get()==0:
+        if v1.get()==0 and varOkQC4.get()==1:
             messagebox.showwarning("showwarning", "Warning: MIN value is zero")
-        if v2.get()==0:
+        if v2.get()==0 and varOkQC4.get()==1:
             messagebox.showwarning("showwarning", "Warning: MAX value is zero")
-        if v1Spike.get()==0:
+        if v1Spike.get()==0 and varOkQC3.get()==1:
             messagebox.showwarning("showwarning", "Warning: SPIKE value is zero")
             
-            
+        try:
+            countRow=0
+            for value in sheet.get_column_data(tmpMyCol):
+                
+                
+                
+                if countRow>=1:
+                    try:
+                        
+                        
+                        print(value)
+                        valueToCheck=float(value)
+                        
+                        
+                        #The values for the spike's check
+                        if countRow==1:
+                            val1=valueToCheck
+                            val2=0
+                            val3=0
+                        if countRow==2:
+                            val2=valueToCheck
+                            val3=0
+                        if countRow==3:
+                            val3=valueToCheck
+                        if countRow>=4:
+                            val1=val2
+                            val2=val3
+                            val3=valueToCheck
+                        
+                        #QC4 check
+                        if (valueToCheck < v1.get() or valueToCheck > v2.get()) and varOkQC4.get()==1:
+                            QcValue=4
+                            sheet.set_cell_data(countRow,tmpMyColQC, QcValue)
+                            sheet.highlight_cells(row = countRow, column = tmpMyColQC, cells = [], canvas = "table", bg = "violet", fg = None, redraw = False, overwrite = True)
+                        
+                            
+                        else:
+                            
+                            spike=abs(abs((val2-val1)-(val3-val1))-abs(val3-val1))
+                            
+                            if spike >v1Spike.get() and varOkQC3.get()==1:
+                                QcValue=3
+                                sheet.set_cell_data(countRow-1,tmpMyColQC, QcValue)
+                                sheet.highlight_cells(row = countRow-1, column = tmpMyColQC, cells = [], canvas = "table", bg = "red", fg = None, redraw = False, overwrite = True)
+                        
+                            else:
+                                QcValue=1
+                                sheet.set_cell_data(countRow,tmpMyColQC, QcValue)
+                                sheet.highlight_cells(row = countRow, column = tmpMyColQC, cells = [], canvas = "table", bg = "green", fg = None, redraw = False, overwrite = True)
+                        
+                        
+                        
+                    except:
+                        if value=="" and varOkQC9.get()==1:
+                            sheet.set_cell_data(countRow,tmpMyColQC, 9)
+                        else:
+                            sheet.set_cell_data(countRow,tmpMyColQC, 0)
+                countRow+=1
+        except Exception as e:
+            #print("An exception occurred Beta")
+            #print(e)
+            messagebox.showwarning("showwarning", "Warning: "+e)
             
             
     sheet.popup_menu_add_command("Save all as XLSX", rc, table_menu = True, index_menu = True, header_menu = True)
@@ -145,8 +210,10 @@ def esegui():
                 noLabel=1
                 
             checked=0
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            #print("An exception occurred Beta")
+            #print(e)
+            messagebox.showwarning("showwarning", "Warning: "+e)
             checked=1
         # If there is a selected cell, get the data for it
         '''
@@ -287,8 +354,10 @@ def printnvar():
     try:
         
         df = pd.DataFrame(sheet.get_column_data(0))
-    except:
-        print("An exception occurred")
+    except Exception as e:
+        #print("An exception occurred Beta")
+        #print(e)
+        messagebox.showwarning("showwarning", "Warning: "+e)
     #all_data = sheet.get_sheet_data(return_copy = True, get_header = True, get_index = False)
     #df = pd.DataFrame(all_data)
     print(df)
@@ -347,7 +416,7 @@ SpacelQCInfoBis = Label(LabelFrameInfo, text =" ")
 SpacelQCInfoBis.grid(row=2, column=0, sticky=W)
 
 mytext=''
-labelINFO = Label(LabelFrameInfo, text=mytext, bg="aquamarine4", justify="left", fg="white", height=20, width=59)
+labelINFO = Label(LabelFrameInfo, text=mytext, bg="sienna3", justify="left", fg="white", height=20, width=59)
 labelINFO['text'] = 'QC VALUES:\n\n*QC 0 - NO QUALITY CONTROL \n*QC 1 - GOOD VALUE \n*QC 2 - PROBABLY GOOD VALUE \n*QC 3 - PROBABLY BAD VALUE \n*QC 4 - BAD VALUE \n*QC 5 - CHANGED VALUE \n*QC 6 - VALUE BELOW DETECTION \n*QC 7 - VALUE IN EXCESS \n*QC 8 - INTERPOLATED VALUE \n*QC 9 - MISSING VALUE \n*QC A - PHENOMENON UNCERTAIN \n*QC Q - UNDER DETECTION VALUE \n'
 labelINFO.grid(row=3, column=1, columnspan=5, rowspan=10)
 
@@ -430,7 +499,7 @@ def show1outMin():
     l1.config(text = sel, font =("Courier", 8))
 
 s1 = Scale(LabelFrameAutoQC, variable = v1, 
-           from_ = -100, to = 100, 
+           from_ = -1000, to = 1000, 
            orient = HORIZONTAL)  
 s1.grid(row=0, column=1, sticky=W) 
   
@@ -457,7 +526,7 @@ def show1outMax():
     l2.config(text = sel2, font =("Courier", 8))
 
 s2 = Scale(LabelFrameAutoQC, variable = v2, 
-           from_ = -100, to = 100, 
+           from_ = -1000, to = 1000, 
            orient = HORIZONTAL)  
 s2.grid(row=4, column=1, sticky=W) 
   
@@ -685,3 +754,5 @@ plt.show()
 
 
 root.mainloop()
+
+
