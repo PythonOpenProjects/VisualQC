@@ -7,7 +7,7 @@ https://gitlab.physics.ox.ac.uk/metodiev/gui_nek/-/tree/master/tksheet
 '''
 from tksheet import Sheet
 import tkinter as tk
-from tkinter import Tk, Label, Button, StringVar,OptionMenu,E,W, Scale,DoubleVar,HORIZONTAL,Radiobutton,Checkbutton,IntVar,Spinbox
+from tkinter import Tk, Label, Button, StringVar,OptionMenu,E,W, Scale,DoubleVar,HORIZONTAL,Radiobutton,Checkbutton,IntVar,Spinbox,Entry,END
 from tkinter import ttk
 import pandas as pd
 import os
@@ -83,9 +83,9 @@ def esegui():
         tmpMyColQC=int(LETTERS_ARRAY.index(enQCColCheck.get()))-1
         print("Selected column QC in"+str(tmpMyCol))
         print("Selected column QC out"+str(tmpMyColQC))
-        print("MIN Value = " + str(v1.get()))
-        print("MAX Value = " + str(v2.get()))
-        print("Spike Value = " + str(v1Spike.get()))
+        print("MIN Value = " + str(l1.get()))
+        print("MAX Value = " + str(l2.get()))
+        print("Spike Value = " + str(l1Spike.get()))
         
         val1=0
         val2=0
@@ -137,7 +137,7 @@ def esegui():
                             val3=valueToCheck
                         
                         #QC4 check
-                        if (valueToCheck < v1.get() or valueToCheck > v2.get()) and varOkQC4.get()==1:
+                        if (valueToCheck < float(l1.get()) or valueToCheck > float(l2.get())) and varOkQC4.get()==1:
                             QcValue=4
                             sheet.set_cell_data(countRow,tmpMyColQC, QcValue)
                             sheet.highlight_cells(row = countRow, column = tmpMyColQC, cells = [], canvas = "table", bg = "violet", fg = None, redraw = False, overwrite = True)
@@ -147,7 +147,7 @@ def esegui():
                             
                             spike=abs(abs((val2-val1)-(val3-val1))-abs(val3-val1))
                             
-                            if spike >v1Spike.get() and varOkQC3.get()==1:
+                            if spike >float(l1Spike.get()) and varOkQC3.get()==1:
                                 QcValue=3
                                 sheet.set_cell_data(countRow-1,tmpMyColQC, QcValue)
                                 sheet.highlight_cells(row = countRow-1, column = tmpMyColQC, cells = [], canvas = "table", bg = "red", fg = None, redraw = False, overwrite = True)
@@ -495,8 +495,10 @@ v1 = DoubleVar()
 
 def show1outMin():  
       
-    sel = "MIN Value = " + str(v1.get())
-    l1.config(text = sel, font =("Courier", 8))
+    sel = str(v1.get())
+    #l1.config(text = sel, font =("Courier", 8))
+    l1.delete(0,END)
+    l1.insert(0,sel)
 
 s1 = Scale(LabelFrameAutoQC, variable = v1, 
            from_ = -1000, to = 1000, 
@@ -512,7 +514,7 @@ b1 = Button(LabelFrameAutoQC, text ="Display MIN value",
 b1.grid(row=2, column=1, sticky=W) 
 
 
-l1 = Label(LabelFrameAutoQC,)
+l1 = Entry(LabelFrameAutoQC,)
 l1.grid(row=3, column=1, sticky=W) 
 
 
@@ -522,8 +524,10 @@ v2 = DoubleVar()
 
 def show1outMax():  
       
-    sel2 = "MAX Value = " + str(v2.get())
-    l2.config(text = sel2, font =("Courier", 8))
+    sel2 = str(v2.get())
+    #l2.config(text = sel2, font =("Courier", 8))
+    l2.delete(0,END)
+    l2.insert(0,sel2)
 
 s2 = Scale(LabelFrameAutoQC, variable = v2, 
            from_ = -1000, to = 1000, 
@@ -539,7 +543,7 @@ b2 = Button(LabelFrameAutoQC, text ="Display MAX value",
 b2.grid(row=6, column=1, sticky=W) 
 
 
-l2 = Label(LabelFrameAutoQC,)
+l2 = Entry(LabelFrameAutoQC,)
 l2.grid(row=7, column=1, sticky=W) 
 
 
@@ -547,8 +551,10 @@ v1Spike = DoubleVar()
 
 def show1spike():  
       
-    selSpike = "Spike Value = " + str(v1Spike.get())
-    l1Spike.config(text = selSpike, font =("Courier", 8))
+    selSpike = str(v1Spike.get())
+    #l1Spike.config(text = selSpike, font =("Courier", 8))
+    l1Spike.delete(0,END)
+    l1Spike.insert(0,selSpike)
 
 s1Spike = Scale(LabelFrameAutoQC, variable = v1Spike, 
            from_ = 0, to = 100, 
@@ -564,7 +570,7 @@ b1Spike = Button(LabelFrameAutoQC, text ="Display Spike value",
 b1Spike.grid(row=2, column=2, sticky=W) 
 
 
-l1Spike = Label(LabelFrameAutoQC,)
+l1Spike = Entry(LabelFrameAutoQC,)
 l1Spike.grid(row=3, column=2, sticky=W)
 
 
