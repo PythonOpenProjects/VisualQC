@@ -1,0 +1,6 @@
+numpy==1.21.6
+tksheet==5.4.1
+pandas==1.2.4
+openpyxl==3.0.10
+matplotlib==3.5.1
+ttkthemes==3.2.2
