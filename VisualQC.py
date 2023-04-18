@@ -2,11 +2,9 @@
 https://github.com/ragardner/tksheet/wiki#24-example-loading-data-from-excel
 https://github.com/ragardner/tksheet
 
-
 #To manipulate the sheet
 https://gitlab.physics.ox.ac.uk/metodiev/gui_nek/-/tree/master/tksheet
 '''
-
 from tksheet import Sheet
 import tkinter as tk
 from tkinter import Tk, Label, Button, StringVar,OptionMenu,E,W, Scale,DoubleVar,HORIZONTAL,Radiobutton,Checkbutton,IntVar,Spinbox,Entry,END
@@ -26,6 +24,8 @@ from ttkthemes import ThemedTk
 from tkinter import messagebox
 #import warnings
 #warnings.simplefilter(action='ignore', category=FutureWarning)
+import mplcyberpunk
+
 
 
 n=[]
@@ -152,7 +152,7 @@ def esegui():
                             if spike >float(l1Spike.get()) and varOkQC3.get()==1:
                                 QcValue=3
                                 sheet.set_cell_data(countRow-1,tmpMyColQC, QcValue)
-                                sheet.highlight_cells(row = countRow-1, column = tmpMyColQC, cells = [], canvas = "table", bg = "red", fg = None, redraw = False, overwrite = True)
+                                sheet.highlight_cells(row = countRow, column = tmpMyColQC, cells = [], canvas = "table", bg = "red", fg = None, redraw = False, overwrite = True)
                         
                             else:
                                 QcValue=1
@@ -283,11 +283,21 @@ def esegui():
         '''
                 
         if checked==0:
+            #CyberorNot=0
+            CyberorNot=varShowCyber.get()
+            if CyberorNot == 1:
+                plt.style.use('cyberpunk')
+            else:
+                plt.style.use('default')
+                
             fig, ax = plt.subplots()
             ax.set_title(tmpLabel)
             tolerance = 10 # points
             ax.plot(n, '-o', picker=tolerance, ms=6, lw=2, alpha=0.7, mfc='orange')
             
+            if CyberorNot == 1:
+                mplcyberpunk.add_glow_effects()
+                
             QCorNot=varShowQC.get()
             if QCorNot == 1:
                 for index in range(len(n)):
@@ -342,7 +352,8 @@ def esegui():
             GRIDorNot=varShowGrid.get()
             if GRIDorNot == 1:
                 plt.grid()
-                
+            
+            
             plt.show()
 
     hiddenLabel.config(text = "load")
@@ -381,7 +392,7 @@ def printnvar():
 root = ThemedTk(theme="radiance")
 root.title('Visual QC')
 root.option_add('*Font', 'Verdana 8')
-root.geometry('450x423')
+root.geometry('450x450')
 
 frameFont = ttk.Style()
 frameFont.configure('new.TFrame', family='Verdana', size=8, weight='bold', underline=1)
@@ -475,7 +486,9 @@ varShowGrid = IntVar()
 buttonShowGrid = Checkbutton(LabelFrameXls, text="Show GRID on plot", variable=varShowGrid)
 buttonShowGrid.grid(row=4, column=0, sticky=W)
 
-
+varShowCyber = IntVar()
+buttonShowCyber = Checkbutton(LabelFrameXls, text="Use Cyberpunk theme on plot", variable=varShowCyber)
+buttonShowCyber.grid(row=5, column=0, sticky=W)
 
 
 
