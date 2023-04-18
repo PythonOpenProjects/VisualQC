@@ -2,8 +2,8 @@
 
 A visual software to assign the quality flag.
 
-![logo](https://github.com/PythonOpenProjects/VisualQC/blob/c0c32bbe709d221ed012922b8e6b60a2ef925729/images/Clipboard01.jpg)
-![logo](https://github.com/PythonOpenProjects/VisualQC/blob/7c00ca886b49bfacdc22bebe297dd04bfe2e71bc/images/Clipboard02.jpg)
-![logo](https://github.com/PythonOpenProjects/VisualQC/blob/7c00ca886b49bfacdc22bebe297dd04bfe2e71bc/images/Clipboard03.jpg)
-![logo](https://github.com/PythonOpenProjects/VisualQC/blob/7c00ca886b49bfacdc22bebe297dd04bfe2e71bc/images/Clipboard04.jpg)
-![logo](https://github.com/PythonOpenProjects/VisualQC/blob/3350e2f614ba3f0fcedb66d5a182ae704c8b3055/images/Clipboard05.jpg)
+![logo](https://github.com/PythonOpenProjects/VisualQC/blob/main/images/Clipboard01.jpg)
+![logo](https://github.com/PythonOpenProjects/VisualQC/blob/main/images/Clipboard02.jpg)
+![logo](https://github.com/PythonOpenProjects/VisualQC/blob/main/images/Clipboard03.jpg)
+![logo](https://github.com/PythonOpenProjects/VisualQC/blob/main/images/Clipboard04.jpg)
+![logo](https://github.com/PythonOpenProjects/VisualQC/blob/main/images/Clipboard05.jpg)
