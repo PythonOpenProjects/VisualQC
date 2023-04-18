@@ -5,3 +5,9 @@ openpyxl==3.0.10
 matplotlib==3.5.1
 ttkthemes==3.2.2
 mplcyberpunk==0.6.0
+pillow==6.2.0
+kiwisolver==1.0.1
+python-dateutil==2.7
+cycler==0.10
+pyparsing==2.2.1
+six==1.5
