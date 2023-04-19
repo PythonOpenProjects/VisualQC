@@ -17,7 +17,7 @@ import time
 from tkinter.filedialog import askopenfilename
 #from matplotlib.widgets import RectangleSelector
 import matplotlib.pyplot as plt
-import mplcyberpunk
+from matplotlib import style
 #from matplotlib.widgets import SpanSelector
 #import matplotlib.image as image
 #from matplotlib.widgets import Button as btn
@@ -284,11 +284,11 @@ def esegui():
         '''
                 
         if checked==0:
-            #CyberorNot=0
-            CyberorNot=varShowCyber.get()
-            if CyberorNot == 1:
-                import mplcyberpunk
-                plt.style.use('cyberpunk')
+            #DarkestorNot=0
+            DarkestorNot=varShowDarkest.get()
+            if DarkestorNot == 1:
+
+                plt.style.use('dark_background')
             else:
                 plt.style.use('default')
                 
@@ -297,8 +297,6 @@ def esegui():
             tolerance = 10 # points
             ax.plot(n, '-o', picker=tolerance, ms=6, lw=2, alpha=0.7, mfc='orange')
             
-            if CyberorNot == 1:
-                mplcyberpunk.add_glow_effects()
                 
             QCorNot=varShowQC.get()
             if QCorNot == 1:
@@ -488,9 +486,9 @@ varShowGrid = IntVar()
 buttonShowGrid = Checkbutton(LabelFrameXls, text="Show GRID on plot", variable=varShowGrid)
 buttonShowGrid.grid(row=4, column=0, sticky=W)
 
-varShowCyber = IntVar()
-buttonShowCyber = Checkbutton(LabelFrameXls, text="Use Cyberpunk theme on plot", variable=varShowCyber)
-buttonShowCyber.grid(row=5, column=0, sticky=W)
+varShowDarkest = IntVar()
+buttonShowDarkest = Checkbutton(LabelFrameXls, text="Use Dark background theme on plot", variable=varShowDarkest)
+buttonShowDarkest.grid(row=5, column=0, sticky=W)
 
 
 
