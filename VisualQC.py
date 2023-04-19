@@ -17,6 +17,7 @@ import time
 from tkinter.filedialog import askopenfilename
 #from matplotlib.widgets import RectangleSelector
 import matplotlib.pyplot as plt
+import mplcyberpunk
 #from matplotlib.widgets import SpanSelector
 #import matplotlib.image as image
 #from matplotlib.widgets import Button as btn
@@ -24,7 +25,7 @@ from ttkthemes import ThemedTk
 from tkinter import messagebox
 #import warnings
 #warnings.simplefilter(action='ignore', category=FutureWarning)
-import mplcyberpunk
+
 
 
 
@@ -286,6 +287,7 @@ def esegui():
             #CyberorNot=0
             CyberorNot=varShowCyber.get()
             if CyberorNot == 1:
+                import mplcyberpunk
                 plt.style.use('cyberpunk')
             else:
                 plt.style.use('default')
