@@ -287,8 +287,8 @@ def esegui():
             #DarkestorNot=0
             DarkestorNot=varShowDarkest.get()
             if DarkestorNot == 1:
-
-                plt.style.use('dark_background')
+                MyThemeTMP=MyTheme.get()
+                plt.style.use(MyThemeTMP)
             else:
                 plt.style.use('default')
                 
@@ -392,7 +392,7 @@ def printnvar():
 root = ThemedTk(theme="radiance")
 root.title('Visual QC')
 root.option_add('*Font', 'Verdana 8')
-root.geometry('450x450')
+root.geometry('450x475')
 
 frameFont = ttk.Style()
 frameFont.configure('new.TFrame', family='Verdana', size=8, weight='bold', underline=1)
@@ -487,10 +487,26 @@ buttonShowGrid = Checkbutton(LabelFrameXls, text="Show GRID on plot", variable=v
 buttonShowGrid.grid(row=4, column=0, sticky=W)
 
 varShowDarkest = IntVar()
-buttonShowDarkest = Checkbutton(LabelFrameXls, text="Use Dark background theme on plot", variable=varShowDarkest)
+buttonShowDarkest = Checkbutton(LabelFrameXls, text="Choose the theme for the plot", variable=varShowDarkest)
 buttonShowDarkest.grid(row=5, column=0, sticky=W)
 
-
+# Dropdown menu options
+optionsTheme = [
+    "default",
+    "classic",
+    "dark_background",
+    "Solarize_Light2",
+    "bmh",
+    "ggplot",
+    "grayscale",
+]
+# datatype of menu text
+MyTheme = StringVar()
+# initial menu text
+MyTheme.set( "default" )
+# Create Dropdown menu
+dropTheme = OptionMenu(LabelFrameXls,MyTheme,*optionsTheme )
+dropTheme.grid(row=6, column=0, sticky=W)
 
 
 SpacelQCAuto = Label(LabelFrameAutoQC, text =" ")
