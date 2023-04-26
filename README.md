@@ -12,7 +12,7 @@ For any suggestion you can contact me at pythonopenprojects@gmail.com
 
 2) after loaded: 
 
-* use the LEFT mouse button ona a column to plot it
+* use the LEFT mouse button on a column to plot it
 
 * use the RIGHT mouse button to manipulate the table
 
