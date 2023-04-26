@@ -5,6 +5,12 @@ You can load a xlsx file and assign the QC using the plot or the automatic optio
 
 
 
+P.S.
+
+For any siggestion you can contact me at pythonopenprojects@gmail.com
+
+
+
 EXE files:
 
 (https://drive.google.com/file/d/1K30T0AbaTEt29WWITMxwB7c9mvBXcdud/view?usp=share_link "Linux Version")
