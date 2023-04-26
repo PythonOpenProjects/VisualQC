@@ -8,17 +8,17 @@ For any suggestion you can contact me at pythonopenprojects@gmail.com
 
 ## Quick start:
 
-* load your dataset as an XLSX documents
+1) load your dataset as an XLSX documents
 
-* after loaded: 
+2) after loaded: 
 
-** use the LEFT mouse button ona a column to plot it
+* use the LEFT mouse button ona a column to plot it
 
-** use the RIGHT mouse button to manipulate the table
+* use the RIGHT mouse button to manipulate the table
 
-** use the RIGHT mouse button to save the table automatically (the file name will be  "DATETIME".xlsx) in the same VisualQC's directory
+* use the RIGHT mouse button to save the table automatically (the file name will be  "DATETIME".xlsx) in the same VisualQC's directory
 
-** use the RIGHT mouse button to use the Automatic-QC
+* use the RIGHT mouse button to use the Automatic-QC
 
 
 Please: see the footage for more informations about the use of the software
