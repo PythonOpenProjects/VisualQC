@@ -3,11 +3,7 @@
 A visual software to assign the quality flag.
 You can load a xlsx file and assign the QC using the plot or the automatic option.
 
-
-
-P.S.
-
-For any siggestion you can contact me at pythonopenprojects@gmail.com
+For any suggestion you can contact me at pythonopenprojects@gmail.com
 
 
 
