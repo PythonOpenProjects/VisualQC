@@ -28,7 +28,7 @@ jobs:
         pyinstaller --noconfirm --onefile --windowed --icon "./resources/logo.ico" VisualQC.py
     - uses: actions/upload-artifact@v3
       with:
-        name: VisualQC-Windows_V0.1
+        name: VisualQC-Windows_V0.2
         path: ./dist/
 
 
@@ -52,5 +52,5 @@ jobs:
         pyinstaller --noconfirm --onefile --windowed VisualQC.py
     - uses: actions/upload-artifact@v3
       with:
-        name: VisualQC-Linux_V0.1
+        name: VisualQC-Linux_V0.2
         path: ./dist/
