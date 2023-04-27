@@ -15,6 +15,7 @@ import numpy as np
 import time
 #import pandas as pd
 from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import asksaveasfile
 #from matplotlib.widgets import RectangleSelector
 import matplotlib.pyplot as plt
 from matplotlib import style
@@ -58,9 +59,11 @@ def esegui():
     def rc():
         try:
             
-            XLSoutputName = str(time.strftime("%Y%m%d%H%M%S")+'.xlsx')
+            #XLSoutputName = str(time.strftime("%Y%m%d%H%M%S")+'.xlsx')
+            files = [('Excel Document', '*.xlsx')] 
+            file = asksaveasfile(filetypes = files, defaultextension = files)
             df = pd.DataFrame(sheet.get_sheet_data(return_copy = True, get_header = True, get_index = False))
-            df.to_excel(XLSoutputName,sheet_name='Sheet_name_1')
+            df.to_excel(file.name,sheet_name='Sheet_name_1')
             
         except:
             print("An exception occurred")
@@ -407,6 +410,8 @@ optionsTheme = [
     "classic",
     "dark_background",
     "Solarize_Light2",
+    "fast",
+    "fivethirtyeight",
     "bmh",
     "ggplot",
     "grayscale",
