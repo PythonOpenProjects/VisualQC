@@ -8,6 +8,7 @@ https://gitlab.physics.ox.ac.uk/metodiev/gui_nek/-/tree/master/tksheet
 from tksheet import Sheet
 import tkinter as tk
 from tkinter import Tk, Label, Button, StringVar,OptionMenu,E,W, Scale,DoubleVar,HORIZONTAL,Radiobutton,Checkbutton,IntVar,Spinbox,Entry,END
+from tkinter import scrolledtext
 from tkinter import ttk
 import pandas as pd
 import os
@@ -34,6 +35,53 @@ rowCoord=0
 MyQC="0"
 flagNewCol=0
 
+
+NUMBERS_ARRAY = []
+
+for n in range(150):
+    NUMBERS_ARRAY.append(n)
+
+
+TMP_LETTERS_ARRAY = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+]
+
+LETTERS_ARRAY = TMP_LETTERS_ARRAY
+
+howmanynumbers = len(NUMBERS_ARRAY)-1
+if howmanynumbers > 25:
+    letters_cicles=int(float(howmanynumbers)/25)
+    for c in range(letters_cicles):
+        for n in range(26):
+            LETTERS_ARRAY.append(TMP_LETTERS_ARRAY[c]+TMP_LETTERS_ARRAY[n])
+LETTERS_ARRAY.insert(0, " ")
+
+
 def esegui():
     
     action=hiddenLabel["text"]
@@ -56,6 +104,63 @@ def esegui():
     
 
     
+    
+    def searchOutliers():
+        tmpMyColOutliers=int(LETTERS_ARRAY.index(enOutliersCol.get()))-1
+        #print(str(tmpMyColOutliers))
+        countRowOutliers=0
+        columnNameOutliers=''
+        listOutliers=[]
+        for value in sheet.get_column_data(tmpMyColOutliers):
+            #print(str(value))
+            if countRowOutliers==0:
+                columnNameOutliers=value
+                
+            if countRowOutliers>=1:
+                listOutliers.append(float(value))
+                
+            countRowOutliers+=1
+        #print(listOutliers)
+        dfOutliers = pd.DataFrame(listOutliers, columns=[columnNameOutliers])
+        min_threshold,max_threshold = dfOutliers[columnNameOutliers].quantile([float(valueMinThreshold.get()),float(valueMaxThreshold.get())])
+        InfoOutliers.insert(END, '\n'+str(min_threshold)+' - '+str(max_threshold))
+        print(str(min_threshold)+' - '+str(max_threshold))
+        outliersFounded=dfOutliers[(dfOutliers[columnNameOutliers]<min_threshold)|(dfOutliers[columnNameOutliers]>max_threshold)]
+        InfoOutliers.insert(END, '\n'+str(outliersFounded))
+        print(outliersFounded)
+        InfoOutliers.insert(END, '\n'+str(outliersFounded.index))
+        print(outliersFounded.index)
+        
+    
+    def removeOutliers():
+        tmpMyColOutliers=int(LETTERS_ARRAY.index(enOutliersCol.get()))-1
+        #print(str(tmpMyColOutliers))
+        countRowOutliers=0
+        columnNameOutliers=''
+        listOutliers=[]
+        for value in sheet.get_column_data(tmpMyColOutliers):
+            #print(str(value))
+            if countRowOutliers==0:
+                columnNameOutliers=value
+                
+            if countRowOutliers>=1:
+                listOutliers.append(float(value))
+                
+            countRowOutliers+=1
+        #print(listOutliers)
+        dfOutliers = pd.DataFrame(listOutliers, columns=[columnNameOutliers])
+        min_threshold,max_threshold = dfOutliers[columnNameOutliers].quantile([float(valueMinThreshold.get()),float(valueMaxThreshold.get())])
+        InfoOutliers.insert(END, '\n'+str(min_threshold)+' - '+str(max_threshold))
+        print(str(min_threshold)+' - '+str(max_threshold))
+        outliersFounded=dfOutliers[(dfOutliers[columnNameOutliers]<min_threshold)|(dfOutliers[columnNameOutliers]>max_threshold)]
+        InfoOutliers.insert(END, '\n'+str(outliersFounded))
+        print(outliersFounded)
+        for tmpindex in outliersFounded.index:
+            delRow=int(tmpindex)+1
+            print('Delete outlier at row '+str(delRow))
+            InfoOutliers.insert(END, '\nDelete outlier at row '+str(delRow))
+            sheet.set_cell_data(delRow,tmpMyColOutliers, '')
+        
     def rc():
         try:
             
@@ -159,6 +264,8 @@ def esegui():
             
     sheet.popup_menu_add_command("Save all as XLSX", rc, table_menu = True, index_menu = True, header_menu = True)
     sheet.popup_menu_add_command("Use Automatic QC assignement", newcol, table_menu = True, index_menu = True, header_menu = True)
+    sheet.popup_menu_add_command("Check Outliers", searchOutliers, table_menu = True, index_menu = True, header_menu = True)
+    sheet.popup_menu_add_command("Remove Outliers", removeOutliers, table_menu = True, index_menu = True, header_menu = True)
     sheet.grid(row = 0, column = 0, sticky = "nswe")
     sheet.refresh(redraw_header = True, redraw_row_index = True)
     
@@ -243,17 +350,21 @@ def esegui():
 
                 
         if checked==0:
-            DarkestorNot=varShowDarkest.get()
-            if DarkestorNot == 1:
-                MyThemeTMP=MyTheme.get()
-                plt.style.use(MyThemeTMP)
-            else:
-                plt.style.use('default')
-                
+            #DarkestorNot=varShowDarkest.get()
+            #if DarkestorNot == 1:
+            #    MyThemeTMP=MyTheme.get()
+            #    plt.style.use(MyThemeTMP)
+            #else:
+            #    plt.style.use('default')
+            
+            MyThemeTMP=MyTheme.get()
+            plt.style.use(MyThemeTMP)
+            MyLineTMP=MyLine.get()
+            
             fig, ax = plt.subplots()
             ax.set_title(tmpLabel)
             tolerance = 10 # points
-            ax.plot(n, '-o', picker=tolerance, ms=6, lw=2, alpha=0.7, mfc='orange')
+            ax.plot(n, '-o', picker=tolerance, ms=6, lw=2, alpha=0.7, mfc='orange',linestyle = MyLineTMP)
             
                 
             QCorNot=varShowQC.get()
@@ -323,7 +434,7 @@ def printnvar():
 root = ThemedTk(theme="radiance")
 root.title('Visual QC')
 root.option_add('*Font', 'Verdana 8')
-root.geometry('450x475')
+root.geometry('770x530')
 
 frameFont = ttk.Style()
 frameFont.configure('new.TFrame', family='Verdana', size=8, weight='bold', underline=1)
@@ -336,10 +447,11 @@ LabelFrameInfo = ttk.Frame(nb, style='new.TFrame')
 nb.add(LabelFrameInfo, text='Main Area')
 
 LabelFrameXls = ttk.Frame(nb, style='new.TFrame')
-nb.add(LabelFrameXls, text='Visual QC assignement')
+nb.add(LabelFrameXls, text='Visual QC')
 
 LabelFrameAutoQC = ttk.Frame(nb, style='new.TFrame')
-nb.add(LabelFrameAutoQC, text='Automatic QC assignement')
+nb.add(LabelFrameAutoQC, text='Automatic QC')
+
 
 
 
@@ -349,6 +461,10 @@ sheet = Sheet(LabelFrameXls,data=dataEmpty)
 sheet.enable_bindings("all")
 sheet.grid(row = 0, column = 0, sticky = "nswe")
 sheet.refresh(redraw_header = True, redraw_row_index = True)
+
+
+InfoOutliers = scrolledtext.ScrolledText(LabelFrameXls, height=20, width=45)
+InfoOutliers.grid(row=0, column=1, columnspan=4, sticky=W)
 
 SpacelQCInfo = Label(LabelFrameInfo, text =" ")
 SpacelQCInfo.grid(row=0, column=0, sticky=W) 
@@ -400,9 +516,13 @@ varShowGrid = IntVar()
 buttonShowGrid = Checkbutton(LabelFrameXls, text="Show GRID on plot", variable=varShowGrid)
 buttonShowGrid.grid(row=4, column=0, sticky=W)
 
-varShowDarkest = IntVar()
-buttonShowDarkest = Checkbutton(LabelFrameXls, text="Choose the theme for the plot", variable=varShowDarkest)
+#varShowDarkest = IntVar()
+#buttonShowDarkest = Checkbutton(LabelFrameXls, text="Choose the theme and the line style for the plot", variable=varShowDarkest)
+buttonShowDarkest = Label(LabelFrameXls, text ="Choose the theme")
 buttonShowDarkest.grid(row=5, column=0, sticky=W)
+
+buttonShowLine = Label(LabelFrameXls, text ="Choose the line Style")
+buttonShowLine.grid(row=7, column=0, sticky=W)
 
 # Dropdown menu options
 optionsTheme = [
@@ -423,6 +543,50 @@ MyTheme.set( "default" )
 # Create Dropdown menu
 dropTheme = OptionMenu(LabelFrameXls,MyTheme,*optionsTheme )
 dropTheme.grid(row=6, column=0, sticky=W)
+
+
+
+
+optionsLine = [
+    "solid",
+    "dotted",
+    "dashed",
+    "dashdot",
+    "None",
+]
+# datatype of menu text
+MyLine = StringVar()
+# initial menu text
+MyLine.set( "solid" )
+# Create Dropdown menu
+dropLine = OptionMenu(LabelFrameXls,MyLine,*optionsLine )
+dropLine.grid(row=8, column=0, sticky=W)
+
+
+TitleOutliers = Label(LabelFrameXls, text ="OUTLIERS AREA (quantile method)", bg="khaki", width=45)
+TitleOutliers.grid(row=1, column=1, columnspan=2,sticky=W) 
+
+LabelMinThreshold = Label(LabelFrameXls, text ="Select MIN Threshold")
+LabelMinThreshold.grid(row=2, column=1, sticky=E)
+valueMinThreshold = Entry(LabelFrameXls,)
+valueMinThreshold.grid(row=2, column=2, sticky=W)
+valueMinThreshold.insert(END, '0.01')
+
+LabelMaxThreshold = Label(LabelFrameXls, text ="Select MAX Threshold")
+LabelMaxThreshold.grid(row=3, column=1, sticky=E)
+valueMaxThreshold = Entry(LabelFrameXls,)
+valueMaxThreshold.grid(row=3, column=2, sticky=W)
+valueMaxThreshold.insert(END, '0.99')
+
+
+LabelOutliersCol = Label(LabelFrameXls, text ="Select the column to check")
+LabelOutliersCol.grid(row=4, column=1, sticky=E) 
+
+entriesOutliersColVars = []
+tempentriesOutliersColVars = tk.IntVar()
+enOutliersCol = Spinbox(LabelFrameXls, values=LETTERS_ARRAY, textvariable=tempentriesOutliersColVars, width=4)
+entriesOutliersColVars.append(tempentriesOutliersColVars)
+enOutliersCol.grid(row=4, column=2, sticky=W)
 
 
 SpacelQCAuto = Label(LabelFrameAutoQC, text =" ")
@@ -534,50 +698,7 @@ buttonvarOkQC9.grid(row=10, column=1,columnspan=10, sticky=W)
 
 
     
-NUMBERS_ARRAY = []
 
-for n in range(150):
-    NUMBERS_ARRAY.append(n)
-
-
-TMP_LETTERS_ARRAY = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-]
-
-LETTERS_ARRAY = TMP_LETTERS_ARRAY
-
-howmanynumbers = len(NUMBERS_ARRAY)-1
-if howmanynumbers > 25:
-    letters_cicles=int(float(howmanynumbers)/25)
-    for c in range(letters_cicles):
-        for n in range(26):
-            LETTERS_ARRAY.append(TMP_LETTERS_ARRAY[c]+TMP_LETTERS_ARRAY[n])
-LETTERS_ARRAY.insert(0, " ")
 
 
 LabelQCAuto = Label(LabelFrameAutoQC, text ="Select the column for the automatic check")
@@ -600,6 +721,18 @@ enQCColCheck = Spinbox(LabelFrameAutoQC, values=LETTERS_ARRAY, textvariable=temp
 entriesQCColVarsCheck.append(tempentriesQCColVarsCheck)
 enQCColCheck.grid(row=12, column=2,columnspan=10, sticky=W)
 
+
+
+
+
+#InfoOutliers = scrolledtext.ScrolledText(LabelFrameOutliers, height=20, width=55)
+#InfoOutliers.grid(row=3, column=0, columnspan=4, sticky=W)
+
+
+
+    
+#searchOutliers = Button(LabelFrameOutliers, text ="Search for Outliers", command = searchOutliers,bg = "plum")  
+#earchOutliers.grid(row=4, column=0, sticky=W)
 
 import matplotlib.cm as cm
 import matplotlib.font_manager
