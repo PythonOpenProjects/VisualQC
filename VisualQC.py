@@ -111,26 +111,37 @@ def esegui():
         countRowOutliers=0
         columnNameOutliers=''
         listOutliers=[]
-        for value in sheet.get_column_data(tmpMyColOutliers):
-            #print(str(value))
-            if countRowOutliers==0:
-                columnNameOutliers=value
-                
-            if countRowOutliers>=1:
-                listOutliers.append(float(value))
-                
-            countRowOutliers+=1
-        #print(listOutliers)
-        dfOutliers = pd.DataFrame(listOutliers, columns=[columnNameOutliers])
-        min_threshold,max_threshold = dfOutliers[columnNameOutliers].quantile([float(valueMinThreshold.get()),float(valueMaxThreshold.get())])
-        InfoOutliers.insert(END, '\n'+str(min_threshold)+' - '+str(max_threshold))
-        print(str(min_threshold)+' - '+str(max_threshold))
-        outliersFounded=dfOutliers[(dfOutliers[columnNameOutliers]<min_threshold)|(dfOutliers[columnNameOutliers]>max_threshold)]
-        InfoOutliers.insert(END, '\n'+str(outliersFounded))
-        print(outliersFounded)
-        InfoOutliers.insert(END, '\n'+str(outliersFounded.index))
-        print(outliersFounded.index)
-        
+        try:
+            for value in sheet.get_column_data(tmpMyColOutliers):
+                #print(str(value))
+                if countRowOutliers==0:
+                    columnNameOutliers=value
+                    
+                if countRowOutliers>=1:
+                    listOutliers.append(float(value))
+                    
+                countRowOutliers+=1
+            #print(listOutliers)
+            dfOutliers = pd.DataFrame(listOutliers, columns=[columnNameOutliers])
+            min_threshold,max_threshold = dfOutliers[columnNameOutliers].quantile([float(valueMinThreshold.get()),float(valueMaxThreshold.get())])
+            InfoOutliers.insert(END, '\n')
+            InfoOutliers.insert(END, '\nMIN threshold'+str(min_threshold))
+            InfoOutliers.insert(END, '\nMAX threshold'+str(max_threshold))
+            #print(str(min_threshold)+' - '+str(max_threshold))
+            outliersFounded=dfOutliers[(dfOutliers[columnNameOutliers]<min_threshold)|(dfOutliers[columnNameOutliers]>max_threshold)]
+            InfoOutliers.insert(END, '\n')
+            InfoOutliers.insert(END, '\nOutliers founded')
+            InfoOutliers.insert(END, '\n'+str(outliersFounded))
+            #print(outliersFounded)
+            InfoOutliers.insert(END, '\n')
+            InfoOutliers.insert(END, '\nOutliers dataframe indexes')
+            InfoOutliers.insert(END, '\n'+str(outliersFounded.index))
+            #print(outliersFounded.index)
+        except Exception as e:
+            #print("An exception occurred")
+            #print(e)
+            messagebox.showwarning("showwarning", "Warning: "+e)
+            
     
     def removeOutliers():
         tmpMyColOutliers=int(LETTERS_ARRAY.index(enOutliersCol.get()))-1
@@ -138,28 +149,38 @@ def esegui():
         countRowOutliers=0
         columnNameOutliers=''
         listOutliers=[]
-        for value in sheet.get_column_data(tmpMyColOutliers):
-            #print(str(value))
-            if countRowOutliers==0:
-                columnNameOutliers=value
-                
-            if countRowOutliers>=1:
-                listOutliers.append(float(value))
-                
-            countRowOutliers+=1
-        #print(listOutliers)
-        dfOutliers = pd.DataFrame(listOutliers, columns=[columnNameOutliers])
-        min_threshold,max_threshold = dfOutliers[columnNameOutliers].quantile([float(valueMinThreshold.get()),float(valueMaxThreshold.get())])
-        InfoOutliers.insert(END, '\n'+str(min_threshold)+' - '+str(max_threshold))
-        print(str(min_threshold)+' - '+str(max_threshold))
-        outliersFounded=dfOutliers[(dfOutliers[columnNameOutliers]<min_threshold)|(dfOutliers[columnNameOutliers]>max_threshold)]
-        InfoOutliers.insert(END, '\n'+str(outliersFounded))
-        print(outliersFounded)
-        for tmpindex in outliersFounded.index:
-            delRow=int(tmpindex)+1
-            print('Delete outlier at row '+str(delRow))
-            InfoOutliers.insert(END, '\nDelete outlier at row '+str(delRow))
-            sheet.set_cell_data(delRow,tmpMyColOutliers, '')
+        try:
+            for value in sheet.get_column_data(tmpMyColOutliers):
+                #print(str(value))
+                if countRowOutliers==0:
+                    columnNameOutliers=value
+                    
+                if countRowOutliers>=1:
+                    listOutliers.append(float(value))
+                    
+                countRowOutliers+=1
+            #print(listOutliers)
+            dfOutliers = pd.DataFrame(listOutliers, columns=[columnNameOutliers])
+            min_threshold,max_threshold = dfOutliers[columnNameOutliers].quantile([float(valueMinThreshold.get()),float(valueMaxThreshold.get())])
+            InfoOutliers.insert(END, '\n')
+            InfoOutliers.insert(END, '\nMIN threshold'+str(min_threshold))
+            InfoOutliers.insert(END, '\nMAX threshold'+str(max_threshold))
+            #print(str(min_threshold)+' - '+str(max_threshold))
+            outliersFounded=dfOutliers[(dfOutliers[columnNameOutliers]<min_threshold)|(dfOutliers[columnNameOutliers]>max_threshold)]
+            InfoOutliers.insert(END, '\n')
+            InfoOutliers.insert(END, '\nOutliers founded')
+            InfoOutliers.insert(END, '\n'+str(outliersFounded))
+            #print(outliersFounded)
+            InfoOutliers.insert(END, '\n')
+            for tmpindex in outliersFounded.index:
+                delRow=int(tmpindex)+1
+                #print('Delete outlier at row '+str(delRow))
+                InfoOutliers.insert(END, '\nDeleted outlier at row '+str(delRow))
+                sheet.set_cell_data(delRow,tmpMyColOutliers, '')
+        except Exception as e:
+            #print("An exception occurred")
+            #print(e)
+            messagebox.showwarning("showwarning", "Warning: "+e)
         
     def rc():
         try:
@@ -476,10 +497,39 @@ SpacelQCInfoBis = Label(LabelFrameInfo, text =" ")
 SpacelQCInfoBis.grid(row=2, column=0, sticky=W)
 
 mytext=''
-labelINFO = Label(LabelFrameInfo, text=mytext, bg="sienna3", justify="left", fg="white", height=20, width=59)
+labelINFO = Label(LabelFrameInfo, text=mytext, bg="sienna3", justify="left", fg="white", height=20, width=40)
 labelINFO['text'] = 'QC VALUES:\n\n*QC 0 - NO QUALITY CONTROL \n*QC 1 - GOOD VALUE \n*QC 2 - PROBABLY GOOD VALUE \n*QC 3 - PROBABLY BAD VALUE \n*QC 4 - BAD VALUE \n*QC 5 - CHANGED VALUE \n*QC 6 - VALUE BELOW DETECTION \n*QC 7 - VALUE IN EXCESS \n*QC 8 - INTERPOLATED VALUE \n*QC 9 - MISSING VALUE \n*QC A - PHENOMENON UNCERTAIN \n*QC Q - UNDER DETECTION VALUE \n'
-labelINFO.grid(row=3, column=1, columnspan=5, rowspan=10)
+labelINFO.grid(row=3, column=1, columnspan=5, rowspan=7)
 
+mytextB=''
+labelINFOB = Label(LabelFrameInfo, text=mytextB, justify="left", fg="white", height=20, width=5)
+labelINFOB.grid(row=3, column=6, rowspan=7)
+
+InfoMain = scrolledtext.ScrolledText(LabelFrameInfo, height=20, width=55)
+InfoMain.grid(row=3, column=7, columnspan=4, rowspan=7, sticky=W)
+InfoMain.insert(END, '\n------------------------------------ ')
+InfoMain.insert(END, '\nWelcome to VisualQC software')
+InfoMain.insert(END, '\n------------------------------------ ')
+InfoMain.insert(END, '\n ')
+InfoMain.insert(END, '\nMIT License ')
+InfoMain.insert(END, '\n ')
+InfoMain.insert(END, '\nPermission is hereby granted, free of charge, \nto any person obtaining a copy ')
+InfoMain.insert(END, '\nof this software and associated documentation \nfiles (the "Software"), to deal ')
+InfoMain.insert(END, '\nin the Software without restriction, including \nwithout limitation the rights ')
+InfoMain.insert(END, '\nto use, copy, modify, merge, publish, distribute, \nsublicense, and/or sell ')
+InfoMain.insert(END, '\ncopies of the Software, and to permit persons \nto whom the Software is ')
+InfoMain.insert(END, '\nfurnished to do so, subject to the following \nconditions: ')
+InfoMain.insert(END, '\n ')
+InfoMain.insert(END, '\nThe above copyright notice and this permission \nnotice shall be included in all ')
+InfoMain.insert(END, '\ncopies or substantial portions of the Software. ')
+InfoMain.insert(END, '\n ')
+InfoMain.insert(END, '\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY \nOF ANY KIND, EXPRESS OR ')
+InfoMain.insert(END, '\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES \nOF MERCHANTABILITY, ')
+InfoMain.insert(END, '\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. \nIN NO EVENT SHALL THE ')
+InfoMain.insert(END, '\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY \nCLAIM, DAMAGES OR OTHER ')
+InfoMain.insert(END, '\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT \nOR OTHERWISE, ARISING FROM, ')
+InfoMain.insert(END, '\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE \nUSE OR OTHER DEALINGS IN THE ')
+InfoMain.insert(END, '\nSOFTWARE. ')
 
 LabelQC = Label(LabelFrameXls, text ="Select the QC value for the visual check")
 LabelQC.grid(row=1, column=0, sticky=W) 
