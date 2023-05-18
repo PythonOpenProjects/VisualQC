@@ -24,26 +24,22 @@ For any suggestion you can contact me at pythonopenprojects@gmail.com
 Please: see the footage for more informations about the use of the software
 
 
-## EXE files V0.2 (Added "ask save file" and more plot themes):
+## EXE files V0.3 (Added "OUTLIERS detection and delete"):
 
-* (https://drive.google.com/file/d/1k8AgwolMe1n8B9p5kmqDlEpcanN6SIS4/view?usp=sharing "Linux Version") V0.2
+* (https://drive.google.com/file/d/1l2FipqfSoIJerohjKLe0MmuFcxe6oWSy/view?usp=sharing "Windows Version") V0.3
 
-* (https://drive.google.com/file/d/11APescFDHn2wc7V0WWr92g_DHJ9iNhJf/view?usp=sharing "Windows Version") V0.2
+* (https://drive.google.com/file/d/1m0JtEx16_KAT5AZZxFDcR60hvXfZls-p/view?usp=sharing "Linux Version") V0.3
 
-
-## EXE files V0.1:
-
-* (https://drive.google.com/file/d/1K30T0AbaTEt29WWITMxwB7c9mvBXcdud/view?usp=share_link "Linux Version") V0.1
-
-* (https://drive.google.com/file/d/1TSMV4BmWqjoqG3Qvtpjr7pnwbcI6WoAs/view?usp=share_link "Windows Version") V0.1
 
 
 
 ## VIDEOS "How to use it":
 
-* (https://www.youtube.com/watch?v=2K5uiD_mYz4 "Plot and QC assignement") 
+* (https://www.youtube.com/watch?v=0DNcvVv4wfk "3 - Outliers detection and  delete")
 
-* (https://www.youtube.com/watch?v=zyoT780ncis "Automatic QC assignement") 
+* (https://www.youtube.com/watch?v=zyoT780ncis "2 - Automatic QC assignement") 
+
+* (https://www.youtube.com/watch?v=2K5uiD_mYz4 "1 - Plot and QC assignement") 
 
 
 
