@@ -233,6 +233,12 @@ def esegui():
                         valueToCheck=float(value)
                         
                         
+                        #QC1 default value or not?
+                        if varOkQC1.get()==1:
+                            defaultQcVal=1
+                        else:
+                            defaultQcVal=0
+                        
                         #The values for the spike's check
                         if countRow==1:
                             val1=valueToCheck
@@ -266,7 +272,7 @@ def esegui():
                         
                             else:
                                 QcValue=1
-                                sheet.set_cell_data(countRow,tmpMyColQC, QcValue)
+                                sheet.set_cell_data(countRow,tmpMyColQC, defaultQcVal)
                                 sheet.highlight_cells(row = countRow, column = tmpMyColQC, cells = [], canvas = "table", bg = "green", fg = None, redraw = False, overwrite = True)
                         
                         
@@ -275,7 +281,7 @@ def esegui():
                         if value=="" and varOkQC9.get()==1:
                             sheet.set_cell_data(countRow,tmpMyColQC, 9)
                         else:
-                            sheet.set_cell_data(countRow,tmpMyColQC, 0)
+                            sheet.set_cell_data(countRow,tmpMyColQC, defaultQcVal)
                 countRow+=1
         except Exception as e:
             #print("An exception occurred ")
@@ -507,29 +513,35 @@ labelINFOB.grid(row=3, column=6, rowspan=7)
 
 InfoMain = scrolledtext.ScrolledText(LabelFrameInfo, height=20, width=55)
 InfoMain.grid(row=3, column=7, columnspan=4, rowspan=7, sticky=W)
-InfoMain.insert(END, '\n------------------------------------ ')
-InfoMain.insert(END, '\nWelcome to VisualQC software')
-InfoMain.insert(END, '\n------------------------------------ ')
+InfoMain.insert(END, '\n ------------------------------------ ')
+InfoMain.insert(END, '\n Welcome to VisualQC software')
+InfoMain.insert(END, '\n ------------------------------------ ')
+InfoMain.insert(END, '\n For any suggestion or bug, contact me:')
+InfoMain.insert(END, '\n pythonopenprojects@gmail.com')
 InfoMain.insert(END, '\n ')
-InfoMain.insert(END, '\nMIT License ')
 InfoMain.insert(END, '\n ')
-InfoMain.insert(END, '\nPermission is hereby granted, free of charge, \nto any person obtaining a copy ')
-InfoMain.insert(END, '\nof this software and associated documentation \nfiles (the "Software"), to deal ')
-InfoMain.insert(END, '\nin the Software without restriction, including \nwithout limitation the rights ')
-InfoMain.insert(END, '\nto use, copy, modify, merge, publish, distribute, \nsublicense, and/or sell ')
-InfoMain.insert(END, '\ncopies of the Software, and to permit persons \nto whom the Software is ')
-InfoMain.insert(END, '\nfurnished to do so, subject to the following \nconditions: ')
 InfoMain.insert(END, '\n ')
-InfoMain.insert(END, '\nThe above copyright notice and this permission \nnotice shall be included in all ')
-InfoMain.insert(END, '\ncopies or substantial portions of the Software. ')
+InfoMain.insert(END, '\n ----------------------------------------')
+InfoMain.insert(END, '\n This software is under MIT License ')
+InfoMain.insert(END, '\n ----------------------------------------')
 InfoMain.insert(END, '\n ')
-InfoMain.insert(END, '\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY \nOF ANY KIND, EXPRESS OR ')
-InfoMain.insert(END, '\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES \nOF MERCHANTABILITY, ')
-InfoMain.insert(END, '\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. \nIN NO EVENT SHALL THE ')
-InfoMain.insert(END, '\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY \nCLAIM, DAMAGES OR OTHER ')
-InfoMain.insert(END, '\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT \nOR OTHERWISE, ARISING FROM, ')
-InfoMain.insert(END, '\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE \nUSE OR OTHER DEALINGS IN THE ')
-InfoMain.insert(END, '\nSOFTWARE. ')
+InfoMain.insert(END, '\n Permission is hereby granted, free of charge, \n to any person obtaining a copy ')
+InfoMain.insert(END, '\n of this software and associated documentation \n files (the "Software"), to deal ')
+InfoMain.insert(END, '\n in the Software without restriction, including \n without limitation the rights ')
+InfoMain.insert(END, '\n to use, copy, modify, merge, publish, distribute, \n sublicense, and/or sell ')
+InfoMain.insert(END, '\n copies of the Software, and to permit persons \n to whom the Software is ')
+InfoMain.insert(END, '\n furnished to do so, subject to the following \n conditions: ')
+InfoMain.insert(END, '\n ')
+InfoMain.insert(END, '\n The above copyright notice and this permission \n notice shall be included in all ')
+InfoMain.insert(END, '\n copies or substantial portions of the Software. ')
+InfoMain.insert(END, '\n ')
+InfoMain.insert(END, '\n THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY \n OF ANY KIND, EXPRESS OR ')
+InfoMain.insert(END, '\n IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES \n OF MERCHANTABILITY, ')
+InfoMain.insert(END, '\n FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. \n IN NO EVENT SHALL THE ')
+InfoMain.insert(END, '\n AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY \n CLAIM, DAMAGES OR OTHER ')
+InfoMain.insert(END, '\n LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT \n OR OTHERWISE, ARISING FROM, ')
+InfoMain.insert(END, '\n OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE \n USE OR OTHER DEALINGS IN THE ')
+InfoMain.insert(END, '\n SOFTWARE. ')
 
 LabelQC = Label(LabelFrameXls, text ="Select the QC value for the visual check")
 LabelQC.grid(row=1, column=0, sticky=W) 
@@ -734,17 +746,21 @@ l1Spike = Entry(LabelFrameAutoQC,)
 l1Spike.grid(row=3, column=2, sticky=W)
 
 
+varOkQC1 = IntVar()
+buttonvarOkQC1 = Checkbutton(LabelFrameAutoQC, text="Set QC 1 as default value", variable=varOkQC1)
+buttonvarOkQC1.grid(row=8, column=1,columnspan=10, sticky=W)
+
 varOkQC3 = IntVar()
 buttonvarOkQC3 = Checkbutton(LabelFrameAutoQC, text="Check QC 3", variable=varOkQC3)
-buttonvarOkQC3.grid(row=8, column=1,columnspan=10, sticky=W)
+buttonvarOkQC3.grid(row=9, column=1,columnspan=10, sticky=W)
 
 varOkQC4 = IntVar()
 buttonvarOkQC4 = Checkbutton(LabelFrameAutoQC, text="Check QC 4", variable=varOkQC4)
-buttonvarOkQC4.grid(row=9, column=1,columnspan=10, sticky=W)
+buttonvarOkQC4.grid(row=10, column=1,columnspan=10, sticky=W)
 
 varOkQC9 = IntVar()
 buttonvarOkQC9 = Checkbutton(LabelFrameAutoQC, text="Check QC 9", variable=varOkQC9)
-buttonvarOkQC9.grid(row=10, column=1,columnspan=10, sticky=W)
+buttonvarOkQC9.grid(row=11, column=1,columnspan=10, sticky=W)
 
 
     
@@ -752,24 +768,24 @@ buttonvarOkQC9.grid(row=10, column=1,columnspan=10, sticky=W)
 
 
 LabelQCAuto = Label(LabelFrameAutoQC, text ="Select the column for the automatic check")
-LabelQCAuto.grid(row=11, column=1, sticky=W) 
+LabelQCAuto.grid(row=12, column=1, sticky=W) 
 
 entriesQCColVars = []
 tempentriesQCColVars = tk.IntVar()
 enQCCol = Spinbox(LabelFrameAutoQC, values=LETTERS_ARRAY, textvariable=tempentriesQCColVars, width=4)
 entriesQCColVars.append(tempentriesQCColVars)
-enQCCol.grid(row=11, column=2,columnspan=10, sticky=W)
+enQCCol.grid(row=12, column=2,columnspan=10, sticky=W)
 
 
 
 LabelQCAutoCheck = Label(LabelFrameAutoQC, text ="Select the column where put the QCs")
-LabelQCAutoCheck.grid(row=12, column=1, sticky=W) 
+LabelQCAutoCheck.grid(row=13, column=1, sticky=W) 
 
 entriesQCColVarsCheck = []
 tempentriesQCColVarsCheck = tk.IntVar()
 enQCColCheck = Spinbox(LabelFrameAutoQC, values=LETTERS_ARRAY, textvariable=tempentriesQCColVarsCheck, width=4)
 entriesQCColVarsCheck.append(tempentriesQCColVarsCheck)
-enQCColCheck.grid(row=12, column=2,columnspan=10, sticky=W)
+enQCColCheck.grid(row=13, column=2,columnspan=10, sticky=W)
 
 
 
