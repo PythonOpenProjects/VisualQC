@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 https://github.com/ragardner/tksheet/wiki#24-example-loading-data-from-excel
 https://github.com/ragardner/tksheet
@@ -23,7 +24,8 @@ from matplotlib import style
 
 from ttkthemes import ThemedTk
 from tkinter import messagebox
-
+import uuid
+import time
 
 
 
@@ -89,16 +91,27 @@ def esegui():
     
     actualdirname = os.getcwd()
     name = askopenfilename(initialdir=actualdirname,
-                                filetypes =(("XLSX", "*.xlsx"),("All Files","*.*")),
+                                filetypes =(("XLSX", "*.xlsx"),("XLS", "*.xls"),("CSV","*.csv"),("All Files","*.*")),
                                 title = "Choose a file."
                                 )
     
-    
-    sheet = Sheet(LabelFrameXls,
-                               data = pd.read_excel(name,      # filepath here
-                                                    #sheet_name = "sheet1", # optional sheet name here
-                                                    engine = "openpyxl",
-                                                    header = None).values.tolist())
+    if name.endswith('.csv'):
+        read_file = pd.read_csv(name)
+        idrnd = uuid.uuid4()
+        tempExcel=str(time.strftime("%Y%m%d%H%M%S")+'-'+str(idrnd)+'.xlsx')
+        read_file.to_excel(tempExcel, index=False, header=True)
+        sheet = Sheet(LabelFrameXls,
+                                   data = pd.read_excel(tempExcel,      # filepath here
+                                                        #sheet_name = "sheet1", # optional sheet name here
+                                                        engine = "openpyxl",
+                                                        header = None).values.tolist())
+    else:
+        #df = pd.read_csv(name)
+        sheet = Sheet(LabelFrameXls,
+                                   data = pd.read_excel(name,      # filepath here
+                                                        #sheet_name = "sheet1", # optional sheet name here
+                                                        engine = "openpyxl",
+                                                        header = None).values.tolist())
     
     sheet.enable_bindings("all")
     
@@ -496,7 +509,7 @@ InfoOutliers.grid(row=0, column=1, columnspan=4, sticky=W)
 SpacelQCInfo = Label(LabelFrameInfo, text =" ")
 SpacelQCInfo.grid(row=0, column=0, sticky=W) 
 
-openInputFileButton = Button(LabelFrameInfo, text="Select file (only XLSX files)",bg = "moccasin", command=(esegui))
+openInputFileButton = Button(LabelFrameInfo, text="Select file (XLSX, XLS, CSV)",bg = "moccasin", command=(esegui))
 openInputFileButton.grid(row=1, column=1, sticky=W)
 
 SpacelQCInfoBis = Label(LabelFrameInfo, text =" ")
