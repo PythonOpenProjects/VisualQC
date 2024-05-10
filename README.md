@@ -24,6 +24,13 @@ For any suggestion you can contact me at pythonopenprojects@gmail.com
 Please: see the footage for more informations about the use of the software
 
 
+## EXE files V0.4 (now, you can load also CSV):
+
+* (https://drive.google.com/file/d/1HZk4rQlkTTES97K7H1Hdc50Es7da-6UG/view?usp=sharing "Windows Version") V0.4
+
+* (https://drive.google.com/file/d/1aUkPh18OvZuLc0gt0fu5C1LWfM5CBGEa/view?usp=sharing "Linux Version") V0.4
+
+
 ## EXE files V0.3 (Added "OUTLIERS detection and delete"):
 
 * (https://drive.google.com/file/d/1l2FipqfSoIJerohjKLe0MmuFcxe6oWSy/view?usp=sharing "Windows Version") V0.3
