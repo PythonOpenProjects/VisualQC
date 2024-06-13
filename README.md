@@ -43,13 +43,13 @@ Please: see the footage for more informations about the use of the software
 ## VIDEOS "How to use it":
 
 * (https://www.youtube.com/watch?v=0DNcvVv4wfk "3 - Outliers detection and  delete")
-* [![Watch the video](https://img.youtube.com/vi/0DNcvVv4wfk/maxresdefault.jpg)](https://youtu.be/0DNcvVv4wfk)
+[![Watch the video](https://img.youtube.com/vi/0DNcvVv4wfk/maxresdefault.jpg)](https://youtu.be/0DNcvVv4wfk)
 
 * (https://www.youtube.com/watch?v=zyoT780ncis "2 - Automatic QC assignement")
-* [![Watch the video](https://img.youtube.com/vi/zyoT780ncis/maxresdefault.jpg)](https://youtu.be/zyoT780ncis)
+[![Watch the video](https://img.youtube.com/vi/zyoT780ncis/maxresdefault.jpg)](https://youtu.be/zyoT780ncis)
 
 * (https://www.youtube.com/watch?v=2K5uiD_mYz4 "1 - Plot and QC assignement")
-* [![Watch the video](https://img.youtube.com/vi/2K5uiD_mYz4/maxresdefault.jpg)](https://youtu.be/2K5uiD_mYz4)
+[![Watch the video](https://img.youtube.com/vi/2K5uiD_mYz4/maxresdefault.jpg)](https://youtu.be/2K5uiD_mYz4)
 
 
 
